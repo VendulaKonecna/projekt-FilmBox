@@ -103,4 +103,127 @@ const filmy = [
 			'Na zámek v podhůří Krkonoš přijíždí jeho nový majitel Štěpán se svojí snoubenkou, krásnou komtesou Blankou, a mladším bratrem Adamem. Cestou kočár nešťastně srazí kolemjdoucí dívku, Adam jí pomůže a ona se do něj zamiluje. Na zámku Adam objeví starou vlašskou knihu, která by měla obsahovat cestu k pokladům. Tajemné značky vlašské knihy však nedokáže vyluštit ani národopisec Jiráček, který v kraji sbírá pověsti a nevychází z údivu nad tím, že zdejší lidé stále věří v Krakonoše. Na zámku se objeví záhadný cizinec a nabídne Štěpánovi, že jej k pokladu za určitých podmínek dovede. Výprava do hor může začít. Naplní se Liduščina láska k Adamovi? Jakou záhadu skrývá starý obraz na zámku Hůrka a co strašlivého se v horách kdysi odehrálo? A kdo je vlastně Krakonoš a jaké je jeho největší tajemství? (csfd.cz, Česká televize)',
 		premiera: '2022-12-24',
 	},
+	{
+		id: 'arrietty-ze-sveta-pujcovnicku',
+		nazev: 'Arrietty ze světa půjčovníčků',
+		plakat: {
+				url:'https://image.pmgstatic.com/cache/resized/w420/files/images/film/posters/168/956/168956117_5hy90j.jpg',
+				sirka: 420,
+				vyska: 592,
+		},
+		ochutnavka: 'Japonský animovaný film volně vycházející ze známé pohádky Mary Nortonové.',
+		popis: 'Japonské animační studio Ghibli představuje nejen v domácím prostředí, ale i na celém světě absolutní špičku na poli tvorby animovaných filmů pro celou rodinu. Společnost, k níž vzhlíží profesionálové z oboru včetně vedení studia Pixar, si vydobylo celosvětovou slávu okouzlujícími snímky, které převážně vyvěraly z autorské imaginace zakladatele Hajaa Mijazakiho, ale často také čerpaly inspiraci z japonských i světových knih pro děti a mládež. Jak napovídá název, Arrietty ze světa půjčovníčků vychází z mezinárodně populární série britské spisovatelky Mary Nortonové, jež česky vyšla jako Pidilidi. Do scénáře filmu ji adaptoval Mijazaki a režie se ujal animátor Hiromasa Jonebajaši, jenž se předtím podílel na většině produkcí studia počínaje legendární Princeznou Mononoke. Vyprávění filmu se soustředí na vykreslení fantaskního světa půjčovníčků. To jsou malinkatí lidé žijící v prostorech mezi zdmi či pod podlahami starých domů, kteří si vše, co potřebují k životu, půjčují od jejich obyvatel. Mladá Arrietty takto se svými rodiči žije v domě, kde bydlí babička mladého chlapce Šóa. V den, kdy Šó přijede, zrovna Arrietty čeká její první výprava s tatínkem pro zásoby do světa velkých lidí. (Česká televize)',
+		premiera: '2024-12-10',
+	},
 ]
+
+//5
+const filmID = window.location.hash.slice(1)
+console.log(filmID)
+const filmData = filmy.find((filmy) => filmy.id === filmID)
+
+const detailFilmu = document.querySelector('#detail-filmu')
+const filmPlakat = detailFilmu.querySelector('.img-fluid')
+const filmNazev = detailFilmu.querySelector('.card-title')
+const filmPopis = detailFilmu.querySelector('.card-text')
+filmPlakat.src = filmData.plakat.url
+filmNazev.textContent = filmData.nazev
+filmPopis.textContent = filmData.popis
+
+//6
+const dnesDatum = dayjs().startOf('day')
+const premiera = dayjs(filmData.premiera).startOf('day')
+const vzdalenost = premiera.diff(dnesDatum,'days')
+
+const datumPremiera = document.querySelector('#premiera')
+const formatDatum = premiera.format('D. M. YYYY')
+let text
+if (vzdalenost === 0 ) {
+	text = 'což je dnes'
+} else if (vzdalenost === -1) {
+	text = 'což bylo včera'
+} else if (vzdalenost === 1) {
+	text = 'což bude zítra'
+} else if (vzdalenost > 0) {
+	text = `což bude za ${vzdalenost} dní`
+} else {
+	text = `což bylo před ${Math.abs(vzdalenost)} dny`
+}
+
+datumPremiera.innerHTML = `Premiéra <strong>${formatDatum}</strong>, ${text}.`
+
+//7
+let posledniHodnoceni = 0
+
+const hodnoceni = (cislo) => {
+const hvezdy = document.querySelectorAll('.fa-star')
+hvezdy.forEach((hvezda, index) => {
+	if (index < cislo) {
+		hvezda.classList.remove('far')
+		hvezda.classList.add('fas')
+	} else {
+		hvezda.classList.remove('fas')
+		hvezda.classList.add('far')
+	}
+})	
+}
+
+const kliknutaHvezda = (hvezda) => {
+	const pocetHvezdicek = parseInt(hvezda.textContent, 10)
+	posledniHodnoceni =pocetHvezdicek
+	hodnoceni(pocetHvezdicek)
+}
+
+const obnovHodnoceni = () => {
+	if (posledniHodnoceni > 0) {
+	  hodnoceni(posledniHodnoceni)
+	}
+  }
+
+document.querySelectorAll('.fa-star').forEach((hvezda) => {
+	
+	hvezda.addEventListener('mouseenter', () => {
+	  const pocetHvezdicek = parseInt(hvezda.textContent, 10)
+	  hodnoceni(pocetHvezdicek) 
+	})
+  
+	hvezda.addEventListener('mouseleave', () => {
+	  hodnoceni(posledniHodnoceni)
+	})
+
+	hvezda.addEventListener('click', () => kliknutaHvezda(hvezda))
+  })
+
+
+//8
+const formular = document.querySelector('#note-form')
+const checkbox = document.querySelector('#terms-checkbox')
+const zprava = formular.querySelector('#message-input')
+
+formular.addEventListener('submit', (event) => {
+	let isValid = true
+
+	if (zprava.value.trim() === "") {
+		zprava.classList.add("is-invalid")
+		zprava.focus()
+		isValid = false
+	} else {
+		zprava.classList.remove("is-invalid")
+	}
+
+	if (!checkbox.checked) { 
+		checkbox.classList.add("is-invalid")
+		checkbox.focus()
+		isValid = false
+	} else { 
+		checkbox.classList.remove("is-invalid")
+	 }
+	
+	 if (!isValid) { 
+		event.preventDefault(); 
+	} else { 
+		event.preventDefault()
+		formular.innerHTML = `<p class="card-text">${zprava.value}</p>`; 
+	}
+})
+

@@ -103,4 +103,41 @@ const filmy = [
 			'Na zámek v podhůří Krkonoš přijíždí jeho nový majitel Štěpán se svojí snoubenkou, krásnou komtesou Blankou, a mladším bratrem Adamem. Cestou kočár nešťastně srazí kolemjdoucí dívku, Adam jí pomůže a ona se do něj zamiluje. Na zámku Adam objeví starou vlašskou knihu, která by měla obsahovat cestu k pokladům. Tajemné značky vlašské knihy však nedokáže vyluštit ani národopisec Jiráček, který v kraji sbírá pověsti a nevychází z údivu nad tím, že zdejší lidé stále věří v Krakonoše. Na zámku se objeví záhadný cizinec a nabídne Štěpánovi, že jej k pokladu za určitých podmínek dovede. Výprava do hor může začít. Naplní se Liduščina láska k Adamovi? Jakou záhadu skrývá starý obraz na zámku Hůrka a co strašlivého se v horách kdysi odehrálo? A kdo je vlastně Krakonoš a jaké je jeho největší tajemství? (csfd.cz, Česká televize)',
 		premiera: '2022-12-24',
 	},
+	{
+		id: 'arrietty-ze-sveta-pujcovnicku',
+		nazev: 'Arrietty ze světa půjčovníčků',
+		plakat: {
+				url:'https://image.pmgstatic.com/cache/resized/w420/files/images/film/posters/168/956/168956117_5hy90j.jpg',
+				sirka: 420,
+				vyska: 592,
+		},
+		ochutnavka: 'Japonský animovaný film volně vycházející ze známé pohádky Mary Nortonové.',
+		popis: 'Japonské animační studio Ghibli představuje nejen v domácím prostředí, ale i na celém světě absolutní špičku na poli tvorby animovaných filmů pro celou rodinu. Společnost, k níž vzhlíží profesionálové z oboru včetně vedení studia Pixar, si vydobylo celosvětovou slávu okouzlujícími snímky, které převážně vyvěraly z autorské imaginace zakladatele Hajaa Mijazakiho, ale často také čerpaly inspiraci z japonských i světových knih pro děti a mládež. Jak napovídá název, Arrietty ze světa půjčovníčků vychází z mezinárodně populární série britské spisovatelky Mary Nortonové, jež česky vyšla jako Pidilidi. Do scénáře filmu ji adaptoval Mijazaki a režie se ujal animátor Hiromasa Jonebajaši, jenž se předtím podílel na většině produkcí studia počínaje legendární Princeznou Mononoke. Vyprávění filmu se soustředí na vykreslení fantaskního světa půjčovníčků. To jsou malinkatí lidé žijící v prostorech mezi zdmi či pod podlahami starých domů, kteří si vše, co potřebují k životu, půjčují od jejich obyvatel. Mladá Arrietty takto se svými rodiči žije v domě, kde bydlí babička mladého chlapce Šóa. V den, kdy Šó přijede, zrovna Arrietty čeká její první výprava s tatínkem pro zásoby do světa velkých lidí. (Česká televize)',
+		premiera: '2010-07-17',
+	},
 ]
+
+const seznamFilmu = document.querySelector("#seznam-filmu")
+seznamFilmu.innerHTML = ""
+
+filmy.forEach((film => {
+	seznamFilmu.innerHTML += `
+	<div class="col">
+   		<div class="card">
+			<img
+				src=${film.plakat.url}
+				width=${film.plakat.sirka}
+				height=${film.plakat.vyska}
+				class="card-img-top"
+				alt= plakát ${film.nazev}
+			/>
+			<div class="card-body">
+				<h5 class="card-title">${film.nazev}</h5>
+				<p class="card-text">${film.ochutnavka}</p>
+				<a href="film.html#${film.id}" class="btn btn-primary">Přehrát</a>
+			</div>
+		</div>
+	</div>
+	`
+}
+))
